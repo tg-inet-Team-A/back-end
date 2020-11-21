@@ -1,5 +1,5 @@
 import requests
 
-response = requests.get('http://localhost:5000/hello')
+response = requests.get('http://localhost:5000/erea/0000/wakeup_people')
 
-print('httpステータス:{}, メッセージ:{}'.format(response.status_code, response.text))
+print('メッセージ:{}'.format(response.text))
