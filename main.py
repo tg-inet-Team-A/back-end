@@ -1,6 +1,10 @@
-from flask import Flask, Response
+from flask import Flask, Response, render_template
 import json
 import sqlite3
+
+#地図作成用
+import folium
+from folium.plugins import HeatMap
 
 app = Flask(__name__)
 
@@ -57,5 +61,38 @@ def count(erea_id=None, home_id =0):
     cur.close() 
     con.close()
     return Response(response=json.dumps({'erea_id': erea_id, "wakeup_people": num}), status=500)
+
+#地図の生成
+@app.route('/mapping', methods=["GET", "POST"])
+def mapping():
+    # 地図の中心を大手町にセット
+    map = folium.Map(location=[35.684952, 139.769842], zoom_start=12)
+
+    # プロットするデータのリスト
+    list = [
+    [35.68075751, 139.76717134],
+    [35.68330693, 139.76900625],
+    [35.66299721, 139.73246813]
+    ]
+
+    # 地図にプロット
+    # con = sqlite3.connect(dbname)
+    # cur = con.cursor()
+    # table = cur.execute("SELECT id FROM ereas")
+
+    # for i in table:
+    #     if table[i] == "新宿":
+    #        list.append([0000, 00000])
+    # cur.close() 
+    # con.close()
+
+
+    # データをヒートマップとしてプロット
+    HeatMap(list, radius=4, blur=3).add_to(map)
+
+    # HTMLを出力
+    map.save('templates/tmpl.html')
+
+    return render_template('tmpl.html')
 
 app.run(debug=True)
