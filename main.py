@@ -1,4 +1,4 @@
-from flask import Flask, Response, render_template
+from flask import Flask, Response, render_template, jsonify
 import json
 import sqlite3
 
@@ -66,29 +66,42 @@ def count(erea_id=None, home_id =0):
 @app.route('/mapping', methods=["GET", "POST"])
 def mapping():
     # 地図の中心を大手町にセット
-    map = folium.Map(location=[35.684952, 139.769842], zoom_start=12)
+    map = folium.Map(location=[35.6553, 139.7571], zoom_start=14)
 
     # プロットするデータのリスト
-    list = [
-    [35.68075751, 139.76717134],
-    [35.68330693, 139.76900625],
-    [35.66299721, 139.73246813]
-    ]
+    list = []
+    #con = sqlite3.connect(dbname)
+    #cur = con.cursor()
 
-    # 地図にプロット
-    # con = sqlite3.connect(dbname)
-    # cur = con.cursor()
-    # table = cur.execute("SELECT id FROM ereas")
+    # 浜松町追加
+    #result = cur.execute("SELECT COUNT(*) FROM homes WHERE erea_id == 新宿 and wake_up == 1")
+    #sinzyuku = result.fetchone()
+    #sinzyuku = sinzyuku[0]
+    sinzyuku = 100
+    for _ in range(sinzyuku):
+        list.append([35.6553, 139.7571])
 
-    # for i in table:
-    #     if table[i] == "新宿":
-    #        list.append([0000, 00000])
-    # cur.close() 
-    # con.close()
+    # 赤羽追加
+    #result = cur.execute("SELECT COUNT(*) FROM homes WHERE erea_id == 赤羽 and wake_up == 1")
+    #akabane = result.fetchone()
+    #akabane = akabane[0]
+    akabane = 40
+    for _ in range(akabane):
+        list.append([35.777615, 139.7209868])  
 
+    # 汐留追加
+    # result = cur.execute("SELECT COUNT(*) FROM homes WHERE erea_id == 汐留 and wake_up == 1")
+    # shiodome = result.fetchone()
+    # shiodome = shiodome[0]
+    shiodome = 35
+    for _ in range(shiodome):
+        list.append([35.6629339, 139.7600031])
+
+    #cur.close() 
+    #con.close()
 
     # データをヒートマップとしてプロット
-    HeatMap(list, radius=4, blur=3).add_to(map)
+    HeatMap(list, radius=40, blur=40).add_to(map)
 
     # HTMLを出力
     map.save('templates/tmpl.html')
