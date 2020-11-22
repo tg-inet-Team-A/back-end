@@ -9,7 +9,7 @@ from folium.plugins import HeatMap
 
 app = Flask(__name__)
 CORS(app)
-
+app.config["JSON_AS_ASCII"] = False
 
 # データベースファイルのパスを設定
 dbname = 'database.db'
@@ -79,7 +79,7 @@ def erea_name():
     cur.close() 
     con.close()
 
-    res = json.dumps(res)
+    res = json.dumps(res, ensure_ascii=False)
     return Response(response=res, status=200)
 
 #地図の生成
