@@ -1,12 +1,14 @@
 from flask import Flask, Response, render_template
 import json
 import sqlite3
+from flask_cors import CORS
 
 #地図作成用
 import folium
 from folium.plugins import HeatMap
 
 app = Flask(__name__)
+CORS(app)
 
 
 # データベースファイルのパスを設定
@@ -60,7 +62,27 @@ def count(erea_id=None, home_id =0):
 
     cur.close() 
     con.close()
-    return Response(response=json.dumps({'erea_id': erea_id, "wakeup_people": num}), status=500)
+    return Response(response=json.dumps({'erea_id': erea_id, "wakeup_people": num}), status=200)
+
+
+@app.route('/erea/all', methods=["GET", "POST"])
+def erea_name():
+    con = sqlite3.connect(dbname)
+    cur = con.cursor()
+
+    # カウント処理
+    sql = "SELECT * FROM ereas"
+    result = cur.execute(sql)
+    
+    res = []
+    for column in result:
+        res.append({'erea_id':column[0], 'erea_name':column[1]})
+
+    cur.close() 
+    con.close()
+
+    res = json.dumps(res)
+    return Response(response=res, status=200)
 
 #地図の生成
 @app.route('/mapping', methods=["GET", "POST"])
