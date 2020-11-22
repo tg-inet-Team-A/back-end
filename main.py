@@ -27,7 +27,7 @@ con.close()
 
 # 仮データの追加処理
 # id_num = [i for i in range(3)]
-# erea_name = ["新宿", "赤羽", "汐留"]
+# erea_name = ["浜松", "赤羽", "汐留"]
 # con = sqlite3.connect(dbname)
 # cur = con.cursor()
 # # insert = 'insert into homes(id, erea_id, wake_up) values (?,?,?)'
@@ -92,8 +92,8 @@ def mapping():
     list = []
     
     # 浜松町追加
-    sinzyuku = 100
-    for _ in range(sinzyuku):
+    hamamatsu = 100
+    for _ in range(hamamatsu):
         list.append([35.6553, 139.7571])
 
     # 赤羽追加
