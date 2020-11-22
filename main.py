@@ -26,20 +26,24 @@ cur.close()
 con.close()
 
 # 仮データの追加処理
-# id_num = [i for i in range(3)]
-# erea_name = ["浜松", "赤羽", "汐留"]
-# con = sqlite3.connect(dbname)
-# cur = con.cursor()
-# # insert = 'insert into homes(id, erea_id, wake_up) values (?,?,?)'
-# # cur.execute(insert, (0, 0, 0))
+id_num = [i for i in range(3)]
+erea_name = ["浜松", "赤羽", "汐留"]
+con = sqlite3.connect(dbname)
+cur = con.cursor()
+# insert = 'insert into homes(id, erea_id, wake_up) values (?,?,?)'
+# home_id = [i for i in range(200)]
+# erea_id = [2 for i in range(200)]
+# wake_up = [0 for i in range(168)] + [1 for i in range(32)]
+# for i in range(len(home_id)):
+#     cur.execute(insert, (home_id[i], erea_id[i], wake_up[i]))
 
-# insert = 'insert into ereas(id, name) values (?,?)'
-# for i in range(len(id_num)):
-#     cur.execute(insert, (id_num[i], erea_name[i]))
+insert = 'insert into ereas(id, name) values (?,?)'
+for i in range(len(id_num)):
+    cur.execute(insert, (id_num[i], erea_name[i]))
 
-# con.commit()
-# cur.close() 
-# con.close()
+con.commit()
+cur.close() 
+con.close()
 
 @app.route('/erea/<erea_id>/wakeup_people', methods=["GET", "POST"])
 def count(erea_id=None, home_id =0):
